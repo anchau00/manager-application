@@ -1,4 +1,5 @@
 using System.Data.SQLite;
+using System.Runtime.InteropServices;
 public class Database
 {
     private SQLiteConnection conn;
@@ -41,4 +42,21 @@ public class Database
 
     
     //insert, update, delete, and retrieve data
+    public void insertOrg(string name, string street, string zip, string city, string country){
+        string sql = @"
+                INSERT INTO Organizations (name, street, zip, city, country)
+                VALUES (@Name, @Street, @Zip, @City, @Country)";
+
+        using (var cmd = new SQLiteCommand(sql, conn)) {
+            cmd.Parameters.AddWithValue("@Name", name);
+            cmd.Parameters.AddWithValue("@Street", street);
+            cmd.Parameters.AddWithValue("@Zip", zip);
+            cmd.Parameters.AddWithValue("@City", city);
+            cmd.Parameters.AddWithValue("@Country", country);
+        
+            cmd.ExecuteNonQuery();
+        } 
+    }
+
+
 }
