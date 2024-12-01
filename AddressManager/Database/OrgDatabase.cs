@@ -30,67 +30,67 @@ public class OrgDatabase
 
     
     //insert, update, delete, and retrieve data
-    public void insertOrg(string name, string street, string zip, string city, string country) {
+    public void insertOrg(Organization org) {
     try {
         string sql = @"
             INSERT INTO Organizations (name, street, zip, city, country)
             VALUES (@Name, @Street, @Zip, @City, @Country)";
 
         using (var cmd = new SQLiteCommand(sql, conn)) {
-            cmd.Parameters.AddWithValue("@Name", name);
-            cmd.Parameters.AddWithValue("@Street", street);
-            cmd.Parameters.AddWithValue("@Zip", zip);
-            cmd.Parameters.AddWithValue("@City", city);
-            cmd.Parameters.AddWithValue("@Country", country);
+            cmd.Parameters.AddWithValue("@Name", org.name);
+            cmd.Parameters.AddWithValue("@Street", org.street);
+            cmd.Parameters.AddWithValue("@Zip", org.zip);
+            cmd.Parameters.AddWithValue("@City", org.city);
+            cmd.Parameters.AddWithValue("@Country", org.country);
 
             cmd.ExecuteNonQuery();
         }
     }
     catch (Exception ex) {
         Console.WriteLine("An error occurred while inserting into Organizations: " + ex.Message);
-        // Optionally, handle the error by logging to a file, notifying a user interface, or rethrowing.
+    
         throw;
     }
 }
 
-public void updateOrg(int organizationId, string name, string street, string zip, string city, string country) {
+public void updateOrg(Organization org) {
     try {
         string sql = @"
             UPDATE Organizations SET name = @Name, street = @Street, zip = @Zip,
             city = @City, country = @Country WHERE OrganizationId = @OrganizationId";
 
         using (var cmd = new SQLiteCommand(sql, conn)) {
-            cmd.Parameters.AddWithValue("@Name", name);
-            cmd.Parameters.AddWithValue("@Street", street);
-            cmd.Parameters.AddWithValue("@Zip", zip);
-            cmd.Parameters.AddWithValue("@City", city);
-            cmd.Parameters.AddWithValue("@Country", country);
-            cmd.Parameters.AddWithValue("@OrganizationId", organizationId);
+            cmd.Parameters.AddWithValue("@Name", org.name);
+            cmd.Parameters.AddWithValue("@Street", org.street);
+            cmd.Parameters.AddWithValue("@Zip", org.zip);
+            cmd.Parameters.AddWithValue("@City", org.city);
+            cmd.Parameters.AddWithValue("@Country", org.country);
+            cmd.Parameters.AddWithValue("@OrganizationId", org.OrganizationId);
 
             cmd.ExecuteNonQuery();
         }
     }
     catch (Exception ex) {
         Console.WriteLine("An error occurred while updating Organization: " + ex.Message);
-        // Optionally, handle the error by logging to a file, notifying a user interface, or rethrowing.
+    
         throw;
     }
 }
 
 
-public void deleteOrg(int organizationId) {
+public void deleteOrg(Organization org) {
     try {
         string sql = @"
             DELETE FROM Organizations WHERE OrganizationId = @OrganizationId";
 
         using (var cmd = new SQLiteCommand(sql, conn)) {
-            cmd.Parameters.AddWithValue("@OrganizationId", organizationId);
+            cmd.Parameters.AddWithValue("@OrganizationId", org.OrganizationId);
             cmd.ExecuteNonQuery();
         }
     }
     catch (Exception ex) {
         Console.WriteLine("An error occurred while deleting from Organizations: " + ex.Message);
-        // Optionally, handle the error by logging to a file, notifying a user interface, or rethrowing.
+    
         throw;
     }
 }
@@ -121,15 +121,10 @@ public List<Organization> GetAllOrganizations()
     }
     catch (Exception ex) {
         Console.WriteLine("An error occurred while retrieving organizations: " + ex.Message);
-        // Optionally, log this exception to a file or database
-        // Consider whether to rethrow the exception or handle it differently
+
         throw;
     }
     return organizations;
 }
-
-
-
-
 
 }

@@ -2,38 +2,43 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Database initialization
 Console.WriteLine("Initializing database and creating tables...");
-OrgDatabase orgdb = new OrgDatabase();  // This triggers your database setup logic
-StaffDatabase staffdb = new StaffDatabase();
-Console.WriteLine("Database setup complete.");
+OrgControl oc = new OrgControl();
+StaffControl sc = new StaffControl();
+
+Organization org = new Organization {
+    name = "Mcdonalds",
+    street = "That Street",
+    zip = "78218",
+    city = "San Antonio",
+    country = "U.S.",
+};
 
 
-//Service.addOrganization("Company name", "street name", "zip", "city", "country");
-//orgdb.insertOrg("Company", "street name", "zip", "city", "country");
-//staffdb.insertStaff("title name", "An", "Chau", "210", "email", 4);
+  Staff staff = new Staff
+    {
+        StaffId = 1,
+        title = "Mr.",
+        firstName = "An",
+        lastName = "Chau",
+        phone = "210",
+        email = "anchau001",
+        OrganizationId = 1  // Make sure this corresponds to an existing Organization ID in your database
+    };
 
-//orgdb.deleteOrg(3);
-//staffdb.deleteStaff(2);
+//oc.addOrg(org);
+//sc.addStaff(staff);
+var organizations = oc.GetAllOrganizations();
+foreach (var o in organizations)
+{
+    Console.WriteLine($"ID: {o.OrganizationId}, Name: {o.name}, Street: {org.street}, Zip: {o.zip}, City: {o.city}, Country: {o.country}");
+}
 
-//staffdb.updateStaff(3, "giggity", "An", "Chau", "210", "email", 4);
-//orgdb.updateOrg(4, "Yup", "street name", "zip", "city", "country");
+var staffMembers = sc.GetAllStaff();
+foreach (var s in staffMembers)
+{
+    Console.WriteLine($"ID: {s.StaffId}, Title: {s.title}, Name: {s.firstName} {s.lastName}, Phone: {s.phone}, Email: {s.email}, Org ID: {s.OrganizationId}");
+}
 
-/** testing the get all method
-try
-        {
-            // Assuming StaffDatabase is the class that contains your method
-            List<Organization> organizations = orgdb.GetAllOrganizations();
-
-            // Print the fetched organizations to verify the results
-            foreach (var org in organizations)
-            {
-                Console.WriteLine($"ID: {org.OrganizationId}, Name: {org.name}, Street: {org.street}, Zip: {org.zip}, City: {org.city}, Country: {org.country}");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("An error occurred: " + ex.Message);
-        }
-**/
 
 var app = builder.Build();
 

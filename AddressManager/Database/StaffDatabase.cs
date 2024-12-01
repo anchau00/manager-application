@@ -32,19 +32,19 @@ public class StaffDatabase
 
     
     //insert, update, delete, and retrieve data
-public void insertStaff(string title, string firstName, string lastName, string phone, string email, int organizationId) {
+public void insertStaff(Staff staff) {
     try {
         string sql = @"
             INSERT INTO Staff (title, firstName, lastName, phone, email, OrganizationId)
             VALUES (@Title, @FirstName, @LastName, @Phone, @Email, @OrganizationId)";
 
         using (var cmd = new SQLiteCommand(sql, conn)) {
-            cmd.Parameters.AddWithValue("@Title", title);
-            cmd.Parameters.AddWithValue("@FirstName", firstName);
-            cmd.Parameters.AddWithValue("@LastName", lastName);
-            cmd.Parameters.AddWithValue("@Phone", phone);
-            cmd.Parameters.AddWithValue("@Email", email);
-            cmd.Parameters.AddWithValue("@OrganizationId", organizationId);
+            cmd.Parameters.AddWithValue("@Title", staff.title);
+            cmd.Parameters.AddWithValue("@FirstName", staff.firstName);
+            cmd.Parameters.AddWithValue("@LastName", staff.lastName);
+            cmd.Parameters.AddWithValue("@Phone", staff.phone);
+            cmd.Parameters.AddWithValue("@Email", staff.email);
+            cmd.Parameters.AddWithValue("@OrganizationId", staff.OrganizationId);
 
             cmd.ExecuteNonQuery();
         }
@@ -56,20 +56,20 @@ public void insertStaff(string title, string firstName, string lastName, string 
     }
 }
 
-public void updateStaff(int staffId, string title, string firstName, string lastName, string phone, string email, int organizationId) {
+public void updateStaff(Staff staff) {
     try {
         string sql = @"
             UPDATE Staff SET title = @Title, firstName = @FirstName, lastName = @LastName,
              phone = @Phone, email = @Email, organizationId = @OrganizationId WHERE StaffId = @StaffId";
 
         using (var cmd = new SQLiteCommand(sql, conn)) {
-            cmd.Parameters.AddWithValue("@Title", title);
-            cmd.Parameters.AddWithValue("@FirstName", firstName);
-            cmd.Parameters.AddWithValue("@LastName", lastName);
-            cmd.Parameters.AddWithValue("@Phone", phone);
-            cmd.Parameters.AddWithValue("@Email", email);
-            cmd.Parameters.AddWithValue("@OrganizationId", organizationId);
-            cmd.Parameters.AddWithValue("@StaffId", staffId);
+            cmd.Parameters.AddWithValue("@Title", staff.title);
+            cmd.Parameters.AddWithValue("@FirstName", staff.firstName);
+            cmd.Parameters.AddWithValue("@LastName", staff.lastName);
+            cmd.Parameters.AddWithValue("@Phone", staff.phone);
+            cmd.Parameters.AddWithValue("@Email", staff.email);
+            cmd.Parameters.AddWithValue("@OrganizationId", staff.OrganizationId);
+            cmd.Parameters.AddWithValue("@StaffId", staff.StaffId);
 
             cmd.ExecuteNonQuery();
         }
@@ -81,13 +81,13 @@ public void updateStaff(int staffId, string title, string firstName, string last
     }
 }
 
-public void deleteStaff(int staffId) {
+public void deleteStaff(Staff staff) {
     try {
         string sql = @"
             DELETE FROM Staff WHERE StaffId = @StaffId";
 
         using (var cmd = new SQLiteCommand(sql, conn)) {
-            cmd.Parameters.AddWithValue("@StaffId", staffId);
+            cmd.Parameters.AddWithValue("@StaffId", staff.StaffId);
             cmd.ExecuteNonQuery();
         }
     }
